@@ -1,0 +1,23 @@
+<h1><%= @user.name %></h1>
+
+<a href="/users/<%= @user.id %>/edit">Edit Profile</a>
+
+<a href="/secrets">All Secrets</a>
+
+<h2>New Secret</h2>
+
+<form action="/users/<%= @user.id %>" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <textarea name="secret[content]" id="Content" cols="30" rows="10"></textarea>
+    <input type="submit" value="Create Secret">
+</form>
+
+<% @user.secrets.each do |secret| %>
+    <p><%= secret.content %></p>
+    <p><%= secret.likes.count %> Likes</p>
+    <form action="/secrets/<%= secret.id %>" method="POST">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="submit" value="Delete Secret">
+    </form>
+<% end %>
